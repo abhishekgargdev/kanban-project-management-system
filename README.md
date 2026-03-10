@@ -47,18 +47,64 @@ npm run dev
 *App available at `http://localhost:3001`.*
 
 ## Database Diagram (ERD)
-\`\`\`mermaid
+
+```mermaid
 erDiagram
+    USERS {
+        int id
+        string name
+        string email
+        datetime created_at
+    }
+
+    PROJECTS {
+        int id
+        string name
+        int owner_id
+    }
+
+    PROJECT_MEMBERS {
+        int user_id
+        int project_id
+        string role
+    }
+
+    BOARDS {
+        int id
+        int project_id
+        string name
+    }
+
+    COLUMNS {
+        int id
+        int board_id
+        string name
+        int position
+    }
+
+    TASKS {
+        int id
+        int column_id
+        int assignee_id
+        string title
+        text description
+    }
+
+    COMMENTS {
+        int id
+        int task_id
+        int user_id
+        text content
+    }
+
     USERS ||--o{ PROJECTS : owns
-    USERS ||--o{ PROJECT_MEMBERS : "is member of"
+    USERS ||--o{ PROJECT_MEMBERS : member
     PROJECTS ||--o{ PROJECT_MEMBERS : has
-    PROJECTS ||--o{ BOARDS : has
+    PROJECTS ||--o{ BOARDS : contains
     BOARDS ||--o{ COLUMNS : contains
     COLUMNS ||--o{ TASKS : holds
-    TASKS ||--o{ COMMENTS : "has"
-    USERS ||--o{ TASKS : "assigned to"
+    TASKS ||--o{ COMMENTS : has
+    USERS ||--o{ TASKS : assigned
     USERS ||--o{ COMMENTS : writes
-\`\`\`
-
+```
 ---
-*Built as a showcase for Agentic AI workflows.*
